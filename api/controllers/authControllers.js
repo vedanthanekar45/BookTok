@@ -48,7 +48,7 @@ export const signup = async (req, res) => {
     try {
 
         // Taking User Inputs from the frontend
-        const {firstName, lastName, userName, email, password} = req.body;
+        const {firstName, lastName, email, userName, password} = req.body;
 
         // Checking if the username already exists
         const user = await User.findOne({userName});

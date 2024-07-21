@@ -3,6 +3,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from "cookie-parser"
 import bodyParser from "body-parser"
+import cors from "cors"
 
 // Importing Routes
 import authRoutes from "./routes/authroutes.js"
@@ -12,19 +13,16 @@ import userRoutes from "./routes/userRoutes.js"
 // Connect to Database
 import connectToMongoDB from './db/connectMongo.js';
 
+// Middleware
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 dotenv.config();
 const port = process.env.PORT
 
 // To parse the incoming resource with JSON
 app.use(express.json());
 app.use(cookieParser());
-
-app.get('/', (req, res)  => {
-    // route handler for http://localhost:5000
-    res.send("Server is running")
-})
 
 // Using the routes defined
 app.use("/auth", authRoutes);
