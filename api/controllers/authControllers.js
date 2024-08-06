@@ -25,11 +25,19 @@ export const login = async (req, res) => {
 
         /* Token and cookie are generated for the user if login is successfull. This function isn't built-in.
            It is defined in the generateToken.js file in utilities folder */
-        generateTokenandCookie(user._id, res);
+        const token = generateTokenandCookie(user._id, res);
+
+        // res.cookie('token', token, {
+        //     httpOnly: true,   // Cannot be accessed by client-side JavaScript
+        //     secure: process.env.NODE_ENV === 'production', // Cookie sent only over HTTPS
+        //     sameSite: 'strict', // Prevent CSRF attacks
+        //     maxAge: 60 * 60 * 1000 // 1 hour
+        //   });
 
         // If login is successful, then this will return a Javascript object containing user details
         res.status(201).json({
             _id: user._id,
+            token: token,
             firstName: user.firstName,
             lastName: user.lastName,
             userName: user.userName,
@@ -75,10 +83,19 @@ export const signup = async (req, res) => {
         // If new user is successfully created then generate tokens and cookie for them
         if (newUser) {
             // Generate JWT Token
-            generateTokenandCookie(newUser._id, res);
+            const token = generateTokenandCookie(newUser._id, res);
+
+            // res.cookie('token', token, {
+            //     httpOnly: true,   // Cannot be accessed by client-side JavaScript
+            //     secure: process.env.NODE_ENV === 'production', // Cookie sent only over HTTPS
+            //     sameSite: 'strict', // Prevent CSRF attacks
+            //     maxAge: 60 * 60 * 1000 // 1 hour
+            // });
+
             await newUser.save();
             res.status(201).json({
                 _id: newUser._id,
+                token: token,
                 firstName: newUser.firstName,
                 lastName: newUser.lastName,
                 userName: newUser.userName,

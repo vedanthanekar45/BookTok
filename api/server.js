@@ -20,6 +20,12 @@ app.use(cors());
 dotenv.config();
 const port = process.env.PORT
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+  });
+
 // To parse the incoming resource with JSON
 app.use(express.json());
 app.use(cookieParser());

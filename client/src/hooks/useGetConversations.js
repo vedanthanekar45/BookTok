@@ -1,31 +1,44 @@
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 
-async function useGetConversations() {
-    const [loading, setLoading] = useState(null);
-    const [conversation, setConversations] = useState([]);
+function useGetConversations() {
+    const [loading, setLoading] = useState(false);
+    const [conversations, setConversations] = useState([]);
 
     useEffect(() => {
         async function getConversations() {
             setLoading(true);
             try {
-                const res = await fetch("http://localhost:5000/users")
-                const data = res.json();
+                const storedUser = localStorage.getItem("chat-user");
+                const user = JSON.parse(storedUser);
+                const res = await fetch('http://localhost:5000/users', 
+                    {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${user.token}`,
+                    },
+                }
+            )
+                console.log(res);
+                if(!res) {
+                    toast.error(`HTTP error! status: ${res.status}`);
+                }
+                const data = await res.json();
                 if(data.error) {
                     throw new Error(data.error);
                 }
                 setConversations(data);
             } catch (error) {
-                console.log("Error getting users")
-                toast.error('Error: ', error.message)
+                toast.error(`Error: , ${error.message}`)
             } finally {
-                setLoading(false);
+                setLoading(false)
             }
         }
         getConversations();
-    },[])
+    }, []);
 
-    return {loading, conversation}
+    return {conversations}
 }
 
 export default useGetConversations;

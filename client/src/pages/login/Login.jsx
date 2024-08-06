@@ -14,6 +14,7 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            
           const response = await fetch('http://localhost:5000/auth/login', {
             method: 'POST',
             headers: {
@@ -21,6 +22,7 @@ function Login() {
             },
             body: JSON.stringify(inputs),
           });
+          console.log("response"+response);
     
           if (response.ok) {
             const result = await response.json();
