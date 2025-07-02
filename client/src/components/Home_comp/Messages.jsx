@@ -1,16 +1,27 @@
 import ChatBubble from "./ChatBubble";
 import useGetMessages from "../../hooks/useGetMessages";
+import { useEffect, useRef } from "react";
 
 function Messages() {
 
     const {messages, loading} = useGetMessages()
     console.log(messages)
 
+    const lastMsgRef = useRef()
+
+    useEffect(() => {
+        setTimeout(() => {
+            lastMsgRef.current?.scrollIntoView({ behaviour: "smooth"})
+        }, 500)
+    }, [messages])
+
     return (
         <div className="px-4 flex-1 overflow-auto scroll">
 
             {!loading && messages.length > 0 && messages.map((message) => (
-                <ChatBubble key={message._id} message={message}/>
+                <div key={message._id} ref={lastMsgRef}>
+                    <ChatBubble message={message}/>
+                </div>
             ))}
 
             {!loading && messages.length === 0 && (
