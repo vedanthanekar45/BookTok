@@ -4,10 +4,10 @@ import useConversation from "../../store/useConversation";
 function ChatBubble ({message}) {
     const {authUser} = useAuthContext()
     const {selectedConversation} = useConversation()
-    const fromMe = message.senderId === authUser._id
+    const fromMe = message.senderID === authUser._id
     const chatClass = fromMe ? 'chat-end' : 'chat-start'
     const profilePic = fromMe ? authUser.profilePic : selectedConversation?.profilePic
-    const bubbleBgColor = fromMe ? 'bg-green-700' : 'bg-gray-200'
+    const bubbleBgColor = fromMe ? 'bg-green-500' : 'bg-gray-200'
 
     return (
         <div className={`chat ${chatClass}`}>
@@ -18,7 +18,7 @@ function ChatBubble ({message}) {
                     src={profilePic} />
                 </div>
             </div>
-            <div className={`chat-bubble text-black font-sans ${bubbleBgColor}`}>{message}</div>
+            <div className={`chat-bubble text-black font-sans ${bubbleBgColor}`}>{message.message}</div>
         </div>
     )
 }
