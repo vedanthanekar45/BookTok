@@ -13,6 +13,9 @@ import userRoutes from "./routes/userRoutes.js"
 // Connect to Database
 import connectToMongoDB from './db/connectMongo.js';
 
+// Sockets
+import { app, server } from "./sockets/socket.js"
+
 // Middleware
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -36,7 +39,7 @@ app.use("/messages", messageRoutes);
 app.use("/users", userRoutes);
 
 // Listening to the port
-app.listen(port, () => {
+server.listen(port, () => {
     connectToMongoDB();
     console.log(`Server's running on port ${port}`);
 })
