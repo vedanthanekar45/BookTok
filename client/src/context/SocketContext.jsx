@@ -1,8 +1,12 @@
-import { createContext, useState, useEffect } from "react";
+import { useContext, createContext, useState, useEffect } from "react";
 import { useAuthContext } from "./authContext";
 import io from 'socket.io-client'
 
 export const SocketContext = createContext()
+
+export const useSocketContext = () => {
+    return useContext(SocketContext)
+}
 
 export const SocketContextProvider = ({children}) => {
 
@@ -19,6 +23,11 @@ export const SocketContextProvider = ({children}) => {
                 }
             });
             setSocket(socket)
+
+            socket.on("getOnlineUsers", (users) => {
+                setOnlineUsers(users)
+            })
+
             return () => socket.close()
         } else {
             if (socket) {
