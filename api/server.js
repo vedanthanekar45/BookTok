@@ -14,7 +14,7 @@ import userRoutes from "./routes/userRoutes.js"
 import connectToMongoDB from './db/connectMongo.js';
 
 // Sockets
-import { server } from "./sockets/socket.js"
+import { createSocketServer } from "./sockets/socket.js"
 
 // Middleware
 const app = express();
@@ -37,6 +37,8 @@ app.use(cookieParser());
 app.use("/auth", authRoutes);
 app.use("/messages", messageRoutes);
 app.use("/users", userRoutes);
+
+const server = createSocketServer(app)
 
 // Listening to the port
 server.listen(port, () => {
