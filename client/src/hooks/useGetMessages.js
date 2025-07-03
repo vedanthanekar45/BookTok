@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import useConversation from '../store/useConversation'
-import { getMessage } from '../../../api/controllers/messageController'
 
 const useGetMessages = () => {
 

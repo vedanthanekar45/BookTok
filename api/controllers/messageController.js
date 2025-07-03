@@ -3,6 +3,7 @@
 // Importing the Conversation and Message models
 import Conversation from "../models/conversation.js"
 import Message from "../models/message.js"
+import { getReceiverID, io } from "../sockets/socket.js";
 
 // Function to handle incoming messages
 export const getMessage = async (req, res) => {
@@ -26,31 +27,6 @@ export const getMessage = async (req, res) => {
         return res.status(500).json({ error: "Internal Server Error" });
     }
 }
-
-
-// export const getMessage = async (req, res) => {
-//     try {
-//         // Get the ID(as defined by the database) of the user that you're talking to, plus the senderID
-//         const {id: userToChatID} = req.params;
-//         const senderID = req.user._id;
-
-//         // Find if the conversation already exists, if yes then populate it with the messages given
-//         const conversation = await Conversation.findOne({
-//             participants: { $all: [senderID, userToChatID]}
-//         }).populate("messages"); // ---> Not reference but actual messages
-
-//         // If the conversation doesn't exist, then create one
-//         if(!conversation) {
-//             return res.status(200).json([]);
-//         }
-
-//         res.status(200).json(conversation.messages);
-
-//     } catch (error) {
-//         console.log("Error in getMessage controller: ", error.message);
-//         res.status(500).json({error: "Internal Server Error"})
-//     }
-// }
 
 export const sendMessage = async (req, res) => {
     try {
@@ -81,6 +57,11 @@ export const sendMessage = async (req, res) => {
         await conversation.save();
         await newMessage.save();
 
+        const receiverSocketID = getReceiverID(receiverID)
+        if (receiverSocketID) {
+            io.to(receiverSocketID).emit("newMessage", newMessage)
+        }
+
         res.status(201).json(newMessage);
 
     } catch (error) {
@@ -88,3 +69,4 @@ export const sendMessage = async (req, res) => {
         res.status(500).json({error: "Internal Server Error"})
     }
 }
+

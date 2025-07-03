@@ -2,8 +2,13 @@ import { Server } from "socket.io";
 import http from "http";
 
 let io;
+const userSocketMap = {}
 
-const createSocketServer = (app) => {
+export const getReceiverID = (receiverID) => {
+    return userSocketMap[receiverID]
+}
+
+export const createSocketServer = (app) => {
   const server = http.createServer(app);
 
   io = new Server(server, {
@@ -13,7 +18,6 @@ const createSocketServer = (app) => {
     },
   });
 
-  const userSocketMap = {}
 
   io.on("connection", (socket) => {
     console.log("a user connected", socket.id);
@@ -35,4 +39,4 @@ const createSocketServer = (app) => {
   return server;
 };
 
-export { createSocketServer, io };
+export { io };
