@@ -14,7 +14,7 @@ import userRoutes from "./routes/userRoutes.js"
 import connectToMongoDB from './db/connectMongo.js';
 
 // Sockets
-import { app, server } from "./sockets/socket.js"
+import { server } from "./sockets/socket.js"
 
 // Middleware
 const app = express();
