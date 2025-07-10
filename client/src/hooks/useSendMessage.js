@@ -2,6 +2,8 @@ import { useState } from "react";
 import toast from "react-hot-toast"
 import useConversation from "../store/useConversation.js"
 
+const apiBase = import.meta.env.VITE_API_URL;
+
 const  useSendMessage = () => {
     const [loading, setLoading] = useState(false)
     const {messages, setMessages, selectedConversation} = useConversation()
