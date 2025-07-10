@@ -5,6 +5,8 @@ import { useAuthContext } from "../../context/authContext";
 // import axios from "axios"
 // import { useNavigate } from "react-router-dom";
 
+const apiBase = import.meta.env.VITE_API_URL;
+
 function Register() {
 
     const [inputs, setInputs] = React.useState({
@@ -20,7 +22,7 @@ function Register() {
     async function handleSubmit(e) {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:5000/auth/signup', {
+            const response = await fetch(`${apiBase}/auth/signup`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',

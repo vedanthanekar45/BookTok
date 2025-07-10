@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import useConversation from '../store/useConversation'
 
+const apiBase = import.meta.env.VITE_API_URL;
+
 const useGetMessages = () => {
 
     const [loading, setLoading] = useState(false)
@@ -12,7 +14,7 @@ const useGetMessages = () => {
             const storedUser = localStorage.getItem("chat-user");
             const user = JSON.parse(storedUser);
             try {
-                const res = await fetch(`http://localhost:5000/messages/get/${selectedConversation._id}`, {
+                const res = await fetch(`${apiBase}/messages/get/${selectedConversation._id}`, {
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${user.token}`,

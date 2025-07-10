@@ -2,6 +2,8 @@ import React from "react"
 import toast from "react-hot-toast"
 import { useAuthContext } from "../../context/authContext";
 
+const apiBase = import.meta.env.VITE_API_URL;
+
 function Login() {
 
     const [inputs, setInputs] = React.useState({
@@ -15,7 +17,7 @@ function Login() {
         e.preventDefault();
         try {
             
-          const response = await fetch('http://localhost:5000/auth/login', {
+          const response = await fetch(`${apiBase}/auth/login`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

@@ -11,7 +11,7 @@ const  useSendMessage = () => {
         try {
             const storedUser = localStorage.getItem("chat-user");
             const user = JSON.parse(storedUser);
-            const res = await fetch(`http://localhost:5000/messages/send/${selectedConversation._id}`, {
+            const res = await fetch(`${apiBase}/messages/send/${selectedConversation._id}`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
